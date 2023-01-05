@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="view_session_tree" model="ir.ui.view">
+        <field name="name">academy.session.tree</field>
+        <field name="model">academy.session</field>
+        <field name="arch" type="xml">
+            <tree expand="1" decoration-info="duration&lt;5" decoration-danger="duration&gt;15" >
+                <field name="name"/>
+                <field name="instructor_id"/>
+                <field name="course_id"/>
+                <field name="start_date"/>
+                <field name="duration"/>
+                <field name="number_of_seats"/>
+                <field name="end_date"/>
+                        <field name="percentage" widget="progressbar"/>
+
+
+            </tree>
+        </field>
+    </record>
+   <record id="view_session_calender" model="ir.ui.view">
+        <field name="name">academy.session.calender</field>
+        <field name="model">academy.session</field>
+        <field name="arch" type="xml">
+                <calendar string="Session Calendar" date_start="start_date" date_stop="end_date" color="instructor_id">
+                    <field name="name"/>
+                </calendar>
+        </field>
+
+     </record>
+
+
+        <record id="view_session_form" model="ir.ui.view">
+        <field name="name">academy.session.form</field>
+        <field name="model">academy.session</field>
+        <field name="arch" type="xml">
+            <form>
+
+    <group>
+        <field name="name"/>
+        <field name="start_date"/>
+        <field name="duration"/>
+        <field name="number_of_seats"/>
+        <field name="instructor_id"/>
+        <field name="active"/>
+        <field name="course_id"/>
+        <field name="percentage" widget="progressbar"/>
+        
+
+    </group>
+                <label for="attendee_ids"/>
+                <field name="attendee_ids"/>
+            </form>
+        </field>
+        </record>
+     <record id="view_session_graph" model="ir.ui.view">
+        <field name="name">academy.session.graph</field>
+        <field name="model">academy.session</field>
+        <field name="arch" type="xml">
+                <graph string="Participations by Courses">
+                    <field name="course_id"/>
+                    <field name="attendees_count" type="measure"/>
+                </graph>
+        </field>
+     </record>
+        <record id="view_session_pivot" model="ir.ui.view">
+        <field name="name">academy.session.pivot</field>
+        <field name="model">academy.session</field>
+        <field name="arch" type="xml">
+                <pivot string="Participations by Courses">
+                    <field name="course_id"/>
+                    <field name="attendees_count" type="measure"/>
+                </pivot>
+        </field>
+     </record>
+
+
+
+
+
+
+  <record id="view_session_kanban" model="ir.ui.view">
+        <field name="name">academy.session.kanban</field>
+        <field name="model">academy.session</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="course_id">
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe-kanban-details">
+                                <ul>
+                                    <li>seats:
+                                        <field name="number_of_seats"/>
+                                    </li>
+                                    <li>Name:
+                                        <field name="name"/>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+        <record model="ir.actions.act_window" id="action_academy_session">
+    <field name="name">Sessions</field>
+    <field name="res_model">academy.session</field>
+    <field name="view_mode">tree,form,calendar,graph,pivot,kanban</field>
+</record>
+
+     <menuitem id="menu_session"
+              name="Sessions"
+              parent="menu_course_root"
+              action="action_academy_session"
+              sequence="10"/>
+</odoo>
